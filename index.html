@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votaciones NSF</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+
+    <div id="mainContainer" class="main-container">
+       
+        <h1>Sistema de Votación Escolar</h1>
+        <button id="startVotingButton" class="main-button" onclick="showVotingOptions()">Comenzar Votación</button>
+    </div>
+    <button id="adminButton" class="admin-button" onclick="showAdminLogin()">Administrador</button>
+    <div id="menuIcon" class="menu-icon hidden">
+        <img src="menu.JPG" alt="Menú" />
+    </div>
+    <nav id="mainMenu" class="menu hidden">
+        <button id="voteButton" class="menu-button" onclick="showVotingOptions()">Votar</button>
+        <button id="manageCandidateButton" class="menu-button admin-only hidden" onclick="showAddCandidateForm()">Agregar Candidatos</button>
+        <button id="editCandidatesButton" class="menu-button admin-only hidden" onclick="showEditCandidatesForm()">Editar Candidatos</button>
+        <button id="resultsButton" class="menu-button admin-only hidden" onclick="showResults()">Resultados</button>
+        <button id="closeAdminButton" class="menu-button admin-only hidden" onclick="closeAdminAccess()">Cerrar Acceso Administrativo</button>
+        <button id="backToStartButton" class="menu-button" onclick="backToStart()">Volver al Inicio</button>
+    </nav>
+    <div id="votingOptionsContainer" class="options-container hidden">
+        <div class="button-container">
+            <button class="option-button" onclick="showCategoryOptions('representante')">Representante</button>
+            <button class="option-button" onclick="showCategoryOptions('personero')">Personero</button>
+            <button class="option-button" onclick="showCategoryOptions('contralor')">Contralor</button>
+        </div>
+    </div>
+    <div id="categoryOptionsContainer" class="options-container hidden">
+        <div class="button-container">
+            <button class="option-button" onclick="showGradeOptions('primary')">Primaria</button>
+            <button class="option-button" onclick="showGradeOptions('highschool')">bachillerato</button>
+        </div>
+    </div>
+    <div id="primaryGradesContainer" class="options-container hidden">
+        <div class="button-container">
+            <button class="option-button" data-grade="3" onclick="showCandidates('3')">Tercero</button>
+            <button class="option-button" data-grade="4" onclick="showCandidates('4')">Cuarto</button>
+            <button class="option-button" data-grade="5" onclick="showCandidates('5')">Quinto</button>
+        </div>
+    </div>
+    <div id="highschoolGradesContainer" class="options-container hidden">
+        <div class="button-container">
+            <button class="option-button" data-grade="6" onclick="showCandidates('6')">Sexto</button>
+            <button class="option-button" data-grade="7" onclick="showCandidates('7')">Séptimo</button>
+            <button class="option-button" data-grade="8" onclick="showCandidates('8')">Octavo</button>
+            <button class="option-button" data-grade="9" onclick="showCandidates('9')">Noveno</button>
+            <button class="option-button" data-grade="10" onclick="showCandidates('10')">Décimo</button>
+            <button class="option-button" data-grade="11" onclick="showCandidates('11')">Once</button>
+        </div>
+    </div>
+    <div id="voteContainer" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeVoteContainer()">&times;</span>
+            <div id="candidatesForVoting"></div>
+        </div>
+    </div>
+    <div id="adminLoginModal" class="modal">
+        <div class="modal-content">
+            <h2>Acceso Administrativo</h2>
+            <input type="password" id="adminPassword" placeholder="Contraseña de administrador">
+            <button onclick="checkAdminPassword()">Acceder</button>
+        </div>
+    </div>
+    <div id="addCandidateForm" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddCandidateForm()">&times;</span>
+            <h2>Agregar Candidato</h2>
+            <form id="candidateForm">
+                <div class="form-group">
+                    <label for="candidateName">Nombre del Candidato:</label>
+                    <input type="text" id="candidateName" required>
+                </div>
+                <div class="form-group">
+                    <label for="candidateGrade">Grado:</label>
+                    <select id="candidateGrade" required>
+                        <option value="3">Tercero</option>
+                        <option value="4">Cuarto</option>
+                        <option value="5">Quinto</option>
+                        <option value="6">Sexto</option>
+                        <option value="7">Séptimo</option>
+                        <option value="8">Octavo</option>
+                        <option value="9">Noveno</option>
+                        <option value="10">Décimo</option>
+                        <option value="11">Once</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="candidateCategory">Categoría:</label>
+                    <select id="candidateCategory" required>
+                        <option value="representante">Representante</option>
+                        <option value="personero">Personero</option>
+                        <option value="contralor">Contralor</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="candidateImage">Imagen del Candidato:</label>
+                    <input type="file" id="candidateImage" accept="image/*" required>
+                </div>
+                <button type="submit" class="submit-button">Agregar Candidato</button>
+            </form>
+        </div>
+    </div>
+    <div id="editCandidatesForm" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditCandidatesForm()">&times;</span>
+            <h2>Editar Candidatos</h2>
+            <div id="editCandidatesList"></div>
+        </div>
+    </div>
+    
+    <div id="resultsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeResultsModal()">&times;</span>
+            <h2>Resultados de la Votación</h2>
+            <div id="resultsContent"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
